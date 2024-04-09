@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +16,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Pet {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -35,9 +36,11 @@ public class Pet {
     @Column(name = "especie", nullable = false)
     private String specie;
 
-    @Column(name = "dueñoscc", nullable = false)
-    private String owner;
+    @ManyToOne
+    @JoinColumn(name = "dueñoscc")
+    private Owner owner;
 
-    @Column(name = "razasid", nullable = false)
-    private Integer race;
+    @ManyToOne
+    @JoinColumn(name = "razasid")
+    private Race race;
 }

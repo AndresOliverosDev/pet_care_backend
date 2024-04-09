@@ -20,6 +20,6 @@ public class Race {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "nombre", nullable = false)
     private String name;
 }

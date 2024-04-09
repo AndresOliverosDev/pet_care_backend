@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.petsCare.index.dto.PetDTO;
 import com.petsCare.index.models.Pet;
 import com.petsCare.index.services.PetService;
 
@@ -23,8 +24,8 @@ public class PetController {
     PetService petService;
 
     @PostMapping("/addPet")
-    ResponseEntity<String> addPed(@RequestBody Pet pet){
-        return petService.addPet(pet);
+    ResponseEntity<String> addPed(@RequestBody PetDTO petDTO) {
+        return petService.addPet(petDTO);
     }
 
     @DeleteMapping("/deletePet/{id}")
@@ -38,17 +39,42 @@ public class PetController {
     }
 
     @GetMapping("/getAllPets")
-    List<Pet> getAllPets() {
+    List<PetDTO> getAllPets() {
         return petService.getAllPets();
     }
 
-    @GetMapping("/getByIdPet")
-    Optional<Pet> getByIdPet(@RequestBody Long id){
+    @GetMapping("/getByIdPet/{id}")
+    Optional<PetDTO> getByIdPet(@PathVariable Long id) {
         return petService.getByIdPet(id);
     }
 
-    @GetMapping("/getByNamePets")
-    List<Pet> getByNamePets(@RequestBody String name) {
+    @GetMapping("/getByNamePets/{name}")
+    List<PetDTO> getByNamePet(@PathVariable String name) {
         return petService.getByNamePets(name);
+    }
+
+    @GetMapping("/getByColorPets/{color}")
+    List<PetDTO> getByColorPets(@PathVariable String color) {
+        return petService.getByColorPets(color);
+    }
+
+    @GetMapping("/getByGenderPets/{gender}")
+    List<PetDTO> getByGenderPets(@PathVariable String gender) {
+        return petService.getByGenderPets(gender);
+    }
+
+    @GetMapping("/getBySpeciePets/{specie}")
+    List<PetDTO> getBySpeciePets(@PathVariable String specie) {
+        return petService.getBySpeciePets(specie);
+    }
+
+    @GetMapping("/getByRacePets/{race}")
+    List<PetDTO> getByRacePets(@PathVariable String race) {
+        return petService.getByRacePets(race);
+    }
+
+    @GetMapping("/getByOwnerPets/{owner}")
+    List<PetDTO> getByOwnerPets(@PathVariable String owner) {
+        return petService.getByOwnerPet(owner);
     }
 }
