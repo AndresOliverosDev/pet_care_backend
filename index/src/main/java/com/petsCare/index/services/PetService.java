@@ -6,13 +6,14 @@ import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.petsCare.index.dto.PetAddDTO;
 import com.petsCare.index.dto.PetDTO;
 import com.petsCare.index.models.Pet;
 
 @Service
 public interface PetService {
 
-    ResponseEntity<String> addPet(PetDTO petDTO);
+    ResponseEntity<String> addPet(PetAddDTO petAddDTO);
 
     ResponseEntity<String> deletePet(Long id);
 

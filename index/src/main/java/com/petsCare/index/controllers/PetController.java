@@ -11,21 +11,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.petsCare.index.dto.PetAddDTO;
 import com.petsCare.index.dto.PetDTO;
 import com.petsCare.index.models.Pet;
 import com.petsCare.index.services.PetService;
 
 @RestController
+@RequestMapping("/pet")
 public class PetController {
 
     @Autowired
     PetService petService;
 
     @PostMapping("/addPet")
-    ResponseEntity<String> addPed(@RequestBody PetDTO petDTO) {
-        return petService.addPet(petDTO);
+    ResponseEntity<String> addPed(@RequestBody PetAddDTO petAddDTO) {
+        return petService.addPet(petAddDTO);
     }
 
     @DeleteMapping("/deletePet/{id}")

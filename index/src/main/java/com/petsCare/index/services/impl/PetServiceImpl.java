@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.petsCare.index.dto.PetAddDTO;
 import com.petsCare.index.dto.PetDTO;
 import com.petsCare.index.models.Owner;
 import com.petsCare.index.models.Pet;
@@ -29,29 +30,27 @@ public class PetServiceImpl implements PetService{
     @Autowired
     RaceRepository raceRepository;
     
-    public ResponseEntity<String> addPet(PetDTO petDTO) {
+    public ResponseEntity<String> addPet(PetAddDTO petAddDTO) {
         try {
-            // Buscar al propietario por su ID
-            Owner owner = ownerRepository.findById(petDTO.getOwner()).orElse(null);
+            Owner owner = ownerRepository.findById(petAddDTO.getOwner()).orElse(null);
             if (owner == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Propietario no encontrado");
             }
-            Race race = raceRepository.getByNamerace(petDTO.getRace()).orElse(null);
+            Race race = raceRepository.findById(petAddDTO.getRace()).orElse(null);
             if (race == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Raza no encontrada");
             }
 
-            
-            // Crear una nueva instancia de Pet y asignar los valores del DTO
             Pet pet = new Pet();
-            pet.setName(petDTO.getName());
-            pet.setAge(petDTO.getAge());
-            pet.setColor(petDTO.getColor());
-            pet.setGender(petDTO.getGender());
-            pet.setSpecie(petDTO.getSpecie());
-            pet.setOwner(owner); // Asignar el propietario
+            pet.setName(petAddDTO.getName());
+            pet.setAge(petAddDTO.getAge());
+            pet.setColor(petAddDTO.getColor());
+            pet.setGender(petAddDTO.getGender());
+            pet.setSpecie(petAddDTO.getSpecie());
+            pet.setOwner(owner);
+            pet.setRace(race);
 
-            // Guardar la mascota en la base de datos
+
             petRepository.save(pet);
 
             return ResponseEntity.ok("La mascota se creó correctamente");
