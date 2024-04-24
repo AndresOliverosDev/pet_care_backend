@@ -26,7 +26,7 @@ public class PetController {
     @Autowired
     PetService petService;
 
-    @PostMapping("/addPet")
+    @PostMapping("/add")
     ResponseEntity<String> addPed(@RequestBody PetAddDTO petAddDTO) {
         return petService.addPet(petAddDTO);
     }
@@ -41,7 +41,7 @@ public class PetController {
         return petService.updatePet(id, pet);
     }
 
-    @GetMapping("/getAllPets")
+    @GetMapping("/getAll")
     List<PetDTO> getAllPets() {
         return petService.getAllPets();
     }
