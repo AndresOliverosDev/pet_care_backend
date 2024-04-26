@@ -34,7 +34,7 @@ public class PetController {
         return petService.addPet(petAddDTO);
     }
 
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('UPDATE')")
     @GetMapping("/getAll")
     List<PetDTO> getAllPets() {
         return petService.getAllPets();

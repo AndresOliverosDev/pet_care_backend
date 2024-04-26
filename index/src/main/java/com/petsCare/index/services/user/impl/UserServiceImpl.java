@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.petsCare.index.dto.user.UserAddDTO;
@@ -33,16 +34,16 @@ public class UserServiceImpl implements UserService {
                 if (existingRol != null) {
                     existingRoles.add(existingRol);
                 } else {
-                    // Si alguno de los roles no existe, retornar una respuesta de error
                     return ResponseEntity.status(HttpStatus.NOT_FOUND)
                             .body("El Rol ingresado '" + rolName + "' no existe en la base de datos");
                 }
             }
 
-            // Crear el usuario después de verificar todos los roles
+            String passwordEncoder = new BCryptPasswordEncoder().encode(userDTO.getPassword());
+
             UserEntity user = new UserEntity();
             user.setUsername(userDTO.getUsername());
-            user.setPassword(userDTO.getPassword());
+            user.setPassword(passwordEncoder);
             user.setEnable(userDTO.isEnable());
             user.setAccountNoExpired(userDTO.isCredentialNoExpired());
             user.setAccountNoLocked(userDTO.isAccountNoLocked());
