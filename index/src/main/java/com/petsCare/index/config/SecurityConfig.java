@@ -1,11 +1,8 @@
 package com.petsCare.index.config;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -15,13 +12,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.petsCare.index.services.user.impl.UserDetailServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -34,12 +29,6 @@ public class SecurityConfig {
             .csrf(csrf ->  csrf.disable())
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(http -> {
-                http.requestMatchers(HttpMethod.POST, "/pet/add").permitAll();
-                http.requestMatchers(HttpMethod.GET, "/pet/getAll").hasAuthority("CREATE");
-
-                http.anyRequest().denyAll();
-            })
             .build();
     }
 
@@ -49,34 +38,14 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider(UserDetailServiceImpl userDetailsService) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(userDetailsService());
+        provider.setUserDetailsService(userDetailsService);
         return provider;
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        List <UserDetails> userDetailsList = new ArrayList<>();
-
-        userDetailsList.add(User.withUsername("andres")
-            .password("1234")
-            .roles("ADMIN")
-            .authorities("READ","CREATE")
-            .build()
-        );
-
-        userDetailsList.add(User.withUsername("carlos")
-            .password("5678")
-            .roles("USER")
-            .authorities("READ")
-            .build()
-        );
-
-        return new InMemoryUserDetailsManager(userDetailsList);
-
-    }
+    
 
     @Bean
     public PasswordEncoder passwordEncoder() {

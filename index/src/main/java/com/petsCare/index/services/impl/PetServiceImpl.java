@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.petsCare.index.dto.PetAddDTO;
 import com.petsCare.index.dto.PetDTO;
-import com.petsCare.index.models.Owner;
+import com.petsCare.index.models.UserEntity;
 import com.petsCare.index.models.Pet;
 import com.petsCare.index.models.Race;
 import com.petsCare.index.repositories.OwnerRepository;
@@ -32,7 +32,7 @@ public class PetServiceImpl implements PetService{
     
     public ResponseEntity<String> addPet(PetAddDTO petAddDTO) {
         try {
-            Owner owner = ownerRepository.findById(petAddDTO.getOwner()).orElse(null);
+            UserEntity owner = ownerRepository.findById(petAddDTO.getOwner()).orElse(null);
             if (owner == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Propietario no encontrado");
             }

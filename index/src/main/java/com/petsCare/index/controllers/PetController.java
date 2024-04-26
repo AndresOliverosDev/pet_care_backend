@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,14 +22,22 @@ import com.petsCare.index.services.PetService;
 
 @RestController
 @RequestMapping("/pet")
+@PreAuthorize("denyAll()")
 public class PetController {
 
     @Autowired
     PetService petService;
 
+    @PreAuthorize("hasAuthority('CREATE')")
     @PostMapping("/add")
     ResponseEntity<String> addPed(@RequestBody PetAddDTO petAddDTO) {
         return petService.addPet(petAddDTO);
+    }
+
+    @PreAuthorize("hasAuthority('READ')")
+    @GetMapping("/getAll")
+    List<PetDTO> getAllPets() {
+        return petService.getAllPets();
     }
 
     @DeleteMapping("/deletePet/{id}")
@@ -39,11 +48,6 @@ public class PetController {
     @PutMapping("/updatePet/{id}")
     ResponseEntity<String> updatePet(@PathVariable Long id, @RequestBody Pet pet) {
         return petService.updatePet(id, pet);
-    }
-
-    @GetMapping("/getAll")
-    List<PetDTO> getAllPets() {
-        return petService.getAllPets();
     }
 
     @GetMapping("/getByIdPet/{id}")

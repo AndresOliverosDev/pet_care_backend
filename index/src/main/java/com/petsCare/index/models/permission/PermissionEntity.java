@@ -1,4 +1,4 @@
-package com.petsCare.index.models;
+package com.petsCare.index.models.permission;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,16 +10,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "races")
+@Table(name = "permissions")
 @Getter
 @Setter
-public class Race {
+public class PermissionEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+    private Byte id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true, updatable = false)
     private String name;
 }

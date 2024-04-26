@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "mascotas")
+@Table(name = "pets")
 @Getter
 @Setter
 public class Pet {
@@ -21,26 +21,26 @@ public class Pet {
     @Column(name = "id")
     private Long id ;
 
-    @Column(name = "nombre", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "edad", nullable = false)
+    @Column(name = "age", nullable = false)
     private Short age;
 
     @Column(name = "color", nullable = false)
     private String color;
 
-    @Column(name = "genero", nullable = false)
+    @Column(name = "gender", nullable = false)
     private String gender;
 
-    @Column(name = "especie", nullable = false)
+    @Column(name = "specie", nullable = false)
     private String specie;
 
     @ManyToOne
-    @JoinColumn(name = "dueñoscc")
-    private Owner owner;
+    @JoinColumn(name = "owner_id")
+    private UserEntity owner;
 
     @ManyToOne
-    @JoinColumn(name = "razasid")
+    @JoinColumn(name = "race_id")
     private Race race;
 }
